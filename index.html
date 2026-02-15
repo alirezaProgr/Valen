@@ -34,10 +34,9 @@ h1{
   font-size:28px;
   color:#2c7be5;
   margin-bottom:20px;
-  min-height:40px; /* جلوگیری از تکون خوردن */
+  min-height:40px; 
 }
 
-/* تصویر */
 .img-wrap{
   width:100%;
   border-radius:15px;
@@ -51,7 +50,6 @@ h1{
   object-fit:cover;
 }
 
-/* دکمه ها */
 .buttons{
   position:relative;
   height:120px;
@@ -114,7 +112,6 @@ const arena = document.getElementById("arena");
 
 let i = 0;
 
-/* تایپ افکت */
 function typeWriter(){
   if(i < text.length){
     title.innerHTML += text.charAt(i);
@@ -125,7 +122,6 @@ function typeWriter(){
 
 typeWriter();
 
-/* حرکت دکمه No */
 let scale = 1;
 
 function moveNo(){
@@ -145,12 +141,10 @@ function moveNo(){
 noBtn.addEventListener("mouseenter", moveNo);
 noBtn.addEventListener("touchstart", moveNo);
 
-/* رفتن به صفحه بعد */
 yesBtn.addEventListener("click", ()=>{
   window.location.href = "yes.html";
 });
 
-/* جای اولیه No */
 window.addEventListener("load", ()=>{
   noBtn.style.left = "60%";
   noBtn.style.top = "40px";
