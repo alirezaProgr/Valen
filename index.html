@@ -1,192 +1,161 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jojo Valentine 💙</title>
-  <style>
-    :root{
-      --pink:#ff4fa3;
-      --pink2:#ff79c6;
-      --gray:#e6e6e6;
-      --text:#222;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jojo, be my Valentine? 💙</title>
 
-    * { box-sizing: border-box; }
-    body{
-      margin:0;
-      min-height:100vh;
-      display:grid;
-      place-items:center;
-      font-family: 'Pacifico', cursive, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(circle at top, #fff 0%, #ffe6f2 40%, #ffffff 100%);
-      color:var(--text);
-      text-align:center;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
 
-    .card{
-      width:min(520px, 92vw);
-      background:#fff;
-      border-radius:24px;
-      padding:28px 22px 26px;
-      box-shadow: 0 18px 50px rgba(0,0,0,.12);
-      text-align:center;
-      position:relative;
-      transition: transform .2s ease;
-    }
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family: system-ui, -apple-system, sans-serif;
+  background:#f4f6f8; /* ساده */
+}
 
-    .card:hover{
-      transform: scale(1.03);
-    }
+.card{
+  width:min(500px,90vw);
+  background:#ffffff;
+  padding:30px;
+  border-radius:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.08);
+  text-align:center;
+}
 
-    h1{
-      margin: 6px 0 18px;
-      font-size: clamp(28px, 4vw, 38px);
-      letter-spacing:.5px;
-      color:#1e90ff;
-      text-shadow: 2px 2px 6px rgba(0,0,0,0.15), 0 0 10px #87cefa;
-    }
+h1{
+  font-size:28px;
+  color:#2c7be5;
+  margin-bottom:20px;
+  min-height:40px; /* جلوگیری از تکون خوردن */
+}
 
-    .img-wrap{
-      width: 100%;
-      border-radius:18px;
-      overflow:hidden;
-      background: #fafafa;
-      border: 2px dashed #ffd1e7;
-      aspect-ratio: 16 / 10;
-      display:grid;
-      place-items:center;
-      margin-bottom: 18px;
-      position:relative;
-    }
+/* تصویر */
+.img-wrap{
+  width:100%;
+  border-radius:15px;
+  overflow:hidden;
+  margin-bottom:25px;
+}
 
-    .img-wrap img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      border-radius:16px;
-    }
+.img-wrap img{
+  width:100%;
+  display:block;
+  object-fit:cover;
+}
 
-    .placeholder{
-      position:absolute;
-      inset:0;
-      display:grid;
-      place-items:center;
-      padding:16px;
-      color:#777;
-      font-size:14px;
-      background: linear-gradient(135deg, rgba(255,79,163,.08), rgba(0,0,0,0));
-    }
+/* دکمه ها */
+.buttons{
+  position:relative;
+  height:120px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
 
-    .buttons{
-      display:flex;
-      gap:12px;
-      justify-content:center;
-      align-items:center;
-      padding-top: 6px;
-      position:relative;
-      height:64px; 
-    }
+button{
+  padding:12px 26px;
+  border:none;
+  border-radius:999px;
+  font-size:16px;
+  font-weight:600;
+  cursor:pointer;
+  transition:.25s ease;
+}
 
-    button{
-      border:none;
-      border-radius:999px;
-      padding: 12px 24px;
-      font-weight:700;
-      font-size:16px;
-      cursor:pointer;
-      transition: transform .08s ease, box-shadow .15s ease, filter .15s ease;
-      user-select:none;
-      -webkit-tap-highlight-color: transparent;
-    }
+/* YES */
+#yesBtn{
+  background:#ff4fa3;
+  color:white;
+  box-shadow:0 8px 20px rgba(255,79,163,0.3);
+}
 
-    #yesBtn{
-      background: linear-gradient(135deg, var(--pink), var(--pink2));
-      color:white;
-      box-shadow: 0 12px 28px rgba(255,79,163,.4);
-    }
-    #yesBtn:hover{ filter: brightness(1.05); transform: translateY(-2px); }
-    #yesBtn:active{ transform: translateY(1px) scale(.97); }
+#yesBtn:hover{
+  transform:scale(1.05);
+}
 
-    #noBtn{
-      background: var(--gray);
-      color:#666;
-      position:absolute; 
-      left: 50%;
-      transform: translateX(80px); 
-      cursor: not-allowed;
-      box-shadow: 0 8px 18px rgba(0,0,0,.06);
-    }
-  </style>
+/* NO */
+#noBtn{
+  position:absolute;
+  background:#e4e6eb;
+  color:#555;
+}
+</style>
 </head>
 
 <body>
- <div class="card">
-  <h1>Jojo, be my Valentine? 💖</h1>
 
-    <div class="img-wrap">
-      <img id="valImg" src="valentine.png.jpeg" alt="valentine image"
-           onerror="this.style.display='none'; document.querySelector('.placeholder').style.display='grid';" />
-      <div class="placeholder">
-        this is my love 
-      </div>
-    </div>
+<div class="card">
+  <h1 id="title"></h1>
 
-    <div class="buttons" id="arena">
-      <button id="yesBtn">Yes 💙</button>
-      <button id="noBtn" type="button" aria-disabled="true">No 😅</button>
-    </div>
+  <div class="img-wrap">
+    <img src="valentine.png.jpeg" alt="valentine">
   </div>
 
-  <script>
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn  = document.getElementById("noBtn");
-    const arena  = document.getElementById("arena");
+  <div class="buttons" id="arena">
+    <button id="yesBtn">Yes 💙</button>
+    <button id="noBtn">No 😅</button>
+  </div>
+</div>
 
-    yesBtn.addEventListener("click", () => {
-      window.location.href = "yes.html";
-    });
+<script>
+const text = "Jojo, be my Valentine? 💖";
+const title = document.getElementById("title");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const arena = document.getElementById("arena");
 
-    ["click","mousedown","mouseup","pointerdown","pointerup","touchstart","keydown"].forEach(evt=>{
-      noBtn.addEventListener(evt, (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        return false;
-      }, {passive:false});
-    });
+let i = 0;
 
-    function moveNoButton() {
-      const arenaRect = arena.getBoundingClientRect();
-      const btnRect = noBtn.getBoundingClientRect();
+/* تایپ افکت */
+function typeWriter(){
+  if(i < text.length){
+    title.innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 40);
+  }
+}
 
-      const padding = 6;
-      const maxX = arenaRect.width - btnRect.width - padding;
-      const maxY = arenaRect.height - btnRect.height - padding;
+typeWriter();
 
-      const x = Math.max(padding, Math.random() * maxX);
-      const y = Math.max(padding, Math.random() * maxY);
+/* حرکت دکمه No */
+let scale = 1;
 
-      noBtn.style.left = `${x}px`;
-      noBtn.style.top  = `${y}px`;
-      noBtn.style.transform = "none";
-    }
+function moveNo(){
+  const maxX = arena.clientWidth - noBtn.offsetWidth;
+  const maxY = arena.clientHeight - noBtn.offsetHeight;
 
-    noBtn.addEventListener("mouseenter", moveNoButton);
-    noBtn.addEventListener("mousemove", moveNoButton);
-    noBtn.addEventListener("pointerenter", moveNoButton);
+  const randomX = Math.random() * maxX;
+  const randomY = Math.random() * maxY;
 
-    arena.addEventListener("touchstart", (e) => {
-      const t = e.touches[0];
-      const r = noBtn.getBoundingClientRect();
-      const near = (t.clientX >= r.left-40 && t.clientX <= r.right+40 &&
-                    t.clientY >= r.top-40  && t.clientY <= r.bottom+40);
-      if (near) moveNoButton();
-    }, {passive:true});
+  noBtn.style.left = randomX + "px";
+  noBtn.style.top = randomY + "px";
 
-    window.addEventListener("load", () => {
-      moveNoButton();
-    });
-  </script>
+  scale += 0.1;
+  yesBtn.style.transform = `scale(${scale})`;
+}
+
+noBtn.addEventListener("mouseenter", moveNo);
+noBtn.addEventListener("touchstart", moveNo);
+
+/* رفتن به صفحه بعد */
+yesBtn.addEventListener("click", ()=>{
+  window.location.href = "yes.html";
+});
+
+/* جای اولیه No */
+window.addEventListener("load", ()=>{
+  noBtn.style.left = "60%";
+  noBtn.style.top = "40px";
+});
+</script>
+
 </body>
 </html>
