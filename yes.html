@@ -1,158 +1,203 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jojo, be my Valentine? 💙</title>
+<title>Yay! 🐥💙</title>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
 body{
-  min-height:100vh;
+  margin:0;
+  height:100vh;
+  overflow:hidden;
   display:flex;
   justify-content:center;
   align-items:center;
-  font-family: system-ui, -apple-system, sans-serif;
-  background:#f4f6f8; /* ساده */
+  font-family:'Pacifico', cursive, system-ui;
+  background:linear-gradient(120deg,#ff97ca,#fff,#87cefa,#ffe6f2);
+  background-size:400% 400%;
+  animation:bgMove 15s ease infinite;
+  perspective:1200px;
+}
+
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
 }
 
 .card{
-  width:min(500px,90vw);
-  background:#ffffff;
-  padding:30px;
-  border-radius:20px;
-  box-shadow:0 15px 40px rgba(0,0,0,0.08);
+  backdrop-filter:blur(15px);
+  background:rgba(255,255,255,0.25);
+  padding:40px 50px;
+  border-radius:30px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.15);
   text-align:center;
+  transform-style:preserve-3d;
+  transition:transform .2s ease;
+  animation:pop 0.8s ease;
+}
+
+@keyframes pop{
+  0%{transform:scale(0.5); opacity:0}
+  100%{transform:scale(1); opacity:1}
+}
+
+.bear{
+  font-size:100px;
+  animation:bounce 1.5s infinite ease-in-out;
+}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-25px)}
 }
 
 h1{
-  font-size:28px;
-  color:#2c7be5;
-  margin-bottom:20px;
-  min-height:40px; 
+  font-size:clamp(2rem,5vw,4rem);
+  color:#1e90ff;
+  margin-top:20px;
+  text-shadow:0 0 15px #87cefa, 0 0 25px #fff;
+  min-height:60px;
 }
 
-
-.img-wrap{
-  width:100%;
-  border-radius:15px;
-  overflow:hidden;
-  margin-bottom:25px;
+.cursor{
+  display:inline-block;
+  width:3px;
+  background:#1e90ff;
+  margin-left:6px;
+  animation:blink 1s infinite;
 }
 
-.img-wrap img{
-  width:100%;
-  display:block;
-  object-fit:cover;
+@keyframes blink{
+  0%,50%,100%{opacity:1}
+  25%,75%{opacity:0}
 }
 
-/* دکمه ها */
-.buttons{
-  position:relative;
-  height:120px;
-  display:flex;
-  justify-content:center;
-  align-items:center;
+.heartbeat{
+  animation:heartbeat 1.6s infinite;
 }
 
-button{
-  padding:12px 26px;
-  border:none;
-  border-radius:999px;
-  font-size:16px;
-  font-weight:600;
-  cursor:pointer;
-  transition:.25s ease;
+@keyframes heartbeat{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.05)}
 }
 
-/* YES */
-#yesBtn{
-  background:#ff4fa3;
-  color:white;
-  box-shadow:0 8px 20px rgba(255,79,163,0.3);
+.floating{
+  position:fixed;
+  inset:0;
+  pointer-events:none;
 }
 
-#yesBtn:hover{
-  transform:scale(1.05);
-}
-
-/* NO */
-#noBtn{
+.float-item{
   position:absolute;
-  background:#e4e6eb;
-  color:#555;
+  font-size:30px;
+  animation:floatUp linear forwards;
+}
+
+@keyframes floatUp{
+  0%{transform:translateY(100vh) rotate(0deg); opacity:0}
+  20%{opacity:1}
+  100%{transform:translateY(-10vh) rotate(360deg); opacity:0}
+}
+
+.burst{
+  position:fixed;
+  font-size:24px;
+  animation:burstAnim 1.2s ease-out forwards;
+}
+
+@keyframes burstAnim{
+  0%{transform:scale(0); opacity:1}
+  100%{transform:translate(var(--x),var(--y)) scale(1.5); opacity:0}
 }
 </style>
 </head>
 
 <body>
 
-<div class="card">
-  <h1 id="title"></h1>
-
-  <div class="img-wrap">
-    <img src="valentine.png.jpeg" alt="valentine">
-  </div>
-
-  <div class="buttons" id="arena">
-    <button id="yesBtn">Yes 💙</button>
-    <button id="noBtn">No 😅</button>
-  </div>
+<div class="card" id="card">
+  <div class="bear">🐥🎉</div>
+  <h1 id="text"></h1>
 </div>
 
-<script>
-const text = "Jojo, be my Valentine? 💖";
-const title = document.getElementById("title");
-const yesBtn = document.getElementById("yesBtn");
-const noBtn = document.getElementById("noBtn");
-const arena = document.getElementById("arena");
+<div class="floating" id="floating"></div>
 
+<audio id="bgMusic" src="malemane.mp3" loop></audio>
+
+<script>
+
+const music = document.getElementById("bgMusic");
+music.volume = 0;
+
+function fadeIn(){
+  let v = 0;
+  const i = setInterval(()=>{
+    v += 0.02;
+    music.volume = Math.min(v,0.6);
+    if(v >= 0.6) clearInterval(i);
+  },120);
+}
+
+document.body.addEventListener("click",()=>{
+  music.play();
+  fadeIn();
+},{once:true});
+
+const message = "badihi bood 😌 but I love you 💙";
+const textEl = document.getElementById("text");
 let i = 0;
 
-/* تایپ افکت */
 function typeWriter(){
-  if(i < text.length){
-    title.innerHTML += text.charAt(i);
+  if(i < message.length){
+    textEl.innerHTML = message.slice(0,i+1) + '<span class="cursor"></span>';
     i++;
-    setTimeout(typeWriter, 40);
+    setTimeout(typeWriter,50);
+  }else{
+    textEl.innerHTML = message;
+    textEl.classList.add("heartbeat");
   }
 }
-
 typeWriter();
 
-/* حرکت دکمه No */
-let scale = 1;
+/* 🎈 ایموجی شناور */
+const floating = document.getElementById("floating");
+const emojis = ["💗","💞","💙","✨","🐣","🐥","🎉","🌸"];
 
-function moveNo(){
-  const maxX = arena.clientWidth - noBtn.offsetWidth;
-  const maxY = arena.clientHeight - noBtn.offsetHeight;
-
-  const randomX = Math.random() * maxX;
-  const randomY = Math.random() * maxY;
-
-  noBtn.style.left = randomX + "px";
-  noBtn.style.top = randomY + "px";
-
-  scale += 0.1;
-  yesBtn.style.transform = `scale(${scale})`;
+function createFloat(){
+  const span = document.createElement("span");
+  span.className = "float-item";
+  span.innerText = emojis[Math.floor(Math.random()*emojis.length)];
+  span.style.left = Math.random()*100 + "vw";
+  span.style.animationDuration = (4 + Math.random()*4) + "s";
+  floating.appendChild(span);
+  setTimeout(()=>span.remove(),8000);
 }
+setInterval(createFloat,500);
 
-noBtn.addEventListener("mouseenter", moveNo);
-noBtn.addEventListener("touchstart", moveNo);
+function heartBurst(){
+  for(let i=0;i<15;i++){
+    const heart=document.createElement("div");
+    heart.className="burst";
+    heart.innerText="💙";
+    heart.style.left="50%";
+    heart.style.top="50%";
+    heart.style.setProperty("--x",(Math.random()*300-150)+"px");
+    heart.style.setProperty("--y",(Math.random()*300-150)+"px");
+    document.body.appendChild(heart);
+    setTimeout(()=>heart.remove(),1200);
+  }
+}
+heartBurst();
 
-yesBtn.addEventListener("click", ()=>{
-  window.location.href = "yes.html";
+const card=document.getElementById("card");
+
+document.addEventListener("mousemove",(e)=>{
+  const x=(window.innerWidth/2 - e.clientX)/25;
+  const y=(window.innerHeight/2 - e.clientY)/25;
+  card.style.transform=`rotateY(${x}deg) rotateX(${y}deg)`;
 });
 
-window.addEventListener("load", ()=>{
-  noBtn.style.left = "60%";
-  noBtn.style.top = "40px";
-});
 </script>
 
 </body>
